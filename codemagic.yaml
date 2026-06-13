@@ -1,80 +1,28 @@
 workflows:
   muleba-android-release:
-    name: Muleba Leadership — Android Release
+    name: Muleba Leadership — Android APK
     max_build_duration: 60
     environment:
       flutter: 3.22.0
       java: 17
-      android_signing:
-        - muleba_keystore  # Configure in CodeMagic → App Settings → Code signing
-
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: main
-          include: true
 
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
 
-      - name: Analyze code
-        script: flutter analyze --no-fatal-infos
-
-      - name: Run tests
-        script: flutter test
-
       - name: Build release APK
-        script: |
-          flutter build apk \
-            --release \
-            --target-platform android-arm64 \
-            --split-per-abi
-
-      - name: Build universal APK (for distribution)
         script: |
           flutter build apk \
             --release \
             --no-split-per-abi
 
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk
-      - build/app/outputs/bundle/**/*.aab
+      - build/app/outputs/flutter-apk/app-release.apk
 
     publishing:
       email:
         recipients:
-          - fanfa@paulomkenya.com   # ← Badilisha na barua pepe yako
+          - your@email.com
         notify:
           success: true
           failure: true
-
-  muleba-android-debug:
-    name: Muleba Leadership — Android Debug (Test Build)
-    max_build_duration: 30
-    environment:
-      flutter: 3.22.0
-      java: 17
-
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: develop
-          include: true
-        - pattern: feature/*
-          include: true
-
-    scripts:
-      - name: Get Flutter packages
-        script: flutter pub get
-
-      - name: Analyze code
-        script: flutter analyze --no-fatal-infos
-
-      - name: Build debug APK
-        script: flutter build apk --debug
-
-    artifacts:
-      - build/app/outputs/flutter-apk/app-debug.apk
