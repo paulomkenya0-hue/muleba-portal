@@ -22,7 +22,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - your@email.com
+          - paulomkenya0@gmail.com
         notify:
           success: true
           failure: true
