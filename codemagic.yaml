@@ -5,14 +5,20 @@ workflows:
     environment:
       flutter: 3.22.0
       java: 17
+
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
+
       - name: Build release APK
         script: |
-          flutter build apk --release
+          flutter build apk \
+            --release \
+            --no-split-per-abi
+
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
+
     publishing:
       email:
         recipients:
