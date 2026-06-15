@@ -11,10 +11,7 @@ workflows:
         script: flutter pub get
 
       - name: Build release APK
-        script: |
-          flutter build apk \
-            --release \
-            --no-split-per-abi
+        script: flutter build apk --release
 
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
