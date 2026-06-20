@@ -102,8 +102,7 @@ class _DivisionsScreenState extends State<DivisionsScreen> {
                               ? Icons.expand_less : Icons.expand_more),
                             iconSize: 20),
                         ])),
-                      if (isExp) _LeadersPanel(
-                        levelId: div.id!, levelType: 'division'),
+                      if (isExp) _DivisionLeadersPanel(divisionId: div.id!),
                     ]));
                 })),
       ]),
@@ -111,15 +110,14 @@ class _DivisionsScreenState extends State<DivisionsScreen> {
   }
 }
 
-class _LeadersPanel extends StatefulWidget {
-  final int levelId;
-  final String levelType;
-  const _LeadersPanel({required this.levelId, required this.levelType});
+class _DivisionLeadersPanel extends StatefulWidget {
+  final int divisionId;
+  const _DivisionLeadersPanel({required this.divisionId});
   @override
-  State<_LeadersPanel> createState() => _LeadersPanelState();
+  State<_DivisionLeadersPanel> createState() => _DivisionLeadersPanelState();
 }
 
-class _LeadersPanelState extends State<_LeadersPanel> {
+class _DivisionLeadersPanelState extends State<_DivisionLeadersPanel> {
   List<Leader> _leaders = [];
   bool _loading = true;
 
@@ -128,7 +126,7 @@ class _LeadersPanelState extends State<_LeadersPanel> {
 
   Future<void> _load() async {
     final l = await DatabaseHelper.instance
-      .getLeaders(widget.levelId, widget.levelType);
+      .getLeaders(widget.divisionId, 'division');
     if (mounted) setState(() { _leaders = l; _loading = false; });
   }
 
