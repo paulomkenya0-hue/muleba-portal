@@ -3,7 +3,7 @@ workflows:
     name: Muleba Leadership — Android APK
     max_build_duration: 60
     environment:
-      flutter: 3.22.0
+      flutter: stable
       java: 17
 
     scripts:
