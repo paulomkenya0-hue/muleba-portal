@@ -47,6 +47,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2"/>
+
     </application>
 
     <queries>
@@ -59,4 +60,4 @@
             <data android:mimeType="*/*"/>
         </intent>
     </queries>
-</manifest>
+</manifest> 
