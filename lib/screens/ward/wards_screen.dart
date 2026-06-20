@@ -5,7 +5,6 @@ import '../../theme/app_theme.dart';
 import '../../utils/validators.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/leader_edit_dialog.dart';
-import '../division/divisions_screen.dart' show _LeadersPanel;
 
 class WardsScreen extends StatefulWidget {
   const WardsScreen({super.key});
@@ -174,15 +173,44 @@ class _WardsScreenState extends State<WardsScreen> {
                                   if (_expandedWard == w.id)
                                     Padding(
                                       padding: const EdgeInsets.only(left: 12),
-                                      child: _LeadersPanel(
-                                        levelId: w.id!,
-                                        levelType: 'ward')),
+                                      child: _WardLeadersPanel(wardId: w.id!)),
                                 ])).toList()),
                         ),
                     ]));
                 })),
       ]),
     );
+  }
+}
+
+class _WardLeadersPanel extends StatefulWidget {
+  final int wardId;
+  const _WardLeadersPanel({required this.wardId});
+  @override
+  State<_WardLeadersPanel> createState() => _WardLeadersPanelState();
+}
+
+class _WardLeadersPanelState extends State<_WardLeadersPanel> {
+  List<Leader> _leaders = [];
+  bool _loading = true;
+
+  @override
+  void initState() { super.initState(); _load(); }
+
+  Future<void> _load() async {
+    final l = await DatabaseHelper.instance.getLeaders(widget.wardId, 'ward');
+    if (mounted) setState(() { _leaders = l; _loading = false; });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _loading
+      ? const Center(child: CircularProgressIndicator())
+      : Column(
+          children: _leaders.map((l) => LeaderTile(leader: l,
+            onEdit: () => showDialog(context: context,
+              builder: (_) => LeaderEditDialog(leader: l, onSaved: _load)))).toList(),
+        );
   }
 }
 
@@ -303,4 +331,4 @@ class _WardDialogState extends State<_WardDialog> {
       ),
     );
   }
-}
+} 
