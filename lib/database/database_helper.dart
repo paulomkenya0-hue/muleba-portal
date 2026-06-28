@@ -33,7 +33,17 @@ class DatabaseHelper {
       CREATE TABLE admin (
         id INTEGER PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL
+        password_hash TEXT NOT NULL,
+        is_super_admin INTEGER DEFAULT 0
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE otp_codes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        otp_code TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        used INTEGER DEFAULT 0
       )
     ''');
     await db.execute('''
