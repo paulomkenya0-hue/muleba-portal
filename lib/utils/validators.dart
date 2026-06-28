@@ -75,4 +75,10 @@ class AppStrings {
   static const String divisionName = 'Jina la Tarafa';
   static const String wardName = 'Jina la Kata';
   static const String description = 'Maelezo (Hiari)';
+  static const String workStation = 'Kituo cha Kazi';
+  static const String forgotPassword = 'Nimesahau Nywila';
+  static const String otpSent = 'Nambari ya uthibitisho imetumwa kwa barua pepe';
+  static const String otpInvalid = 'Nambari ya uthibitisho si sahihi';
+  static const String otpExpired = 'Nambari ya uthibitisho imeisha muda';
+  static const String resetPasswordSuccess = 'Nywila imerejeshwa kwa mafanikio!';
 }
