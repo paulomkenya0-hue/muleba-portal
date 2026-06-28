@@ -8,14 +8,9 @@ class Validators {
     return null;
   }
 
-  static String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) return null;
-    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-      return 'Barua pepe si sahihi (mfano: jina@barua.com)';
-    }
-    return null;
+  static String? validateWorkStation(String? value) {
+    return null; // Hiari kabisa, hauna sharti maalum
   }
-
   static String? validateRequired(String? value, String fieldName) {
     if (value == null || value.trim().isEmpty) return '$fieldName inahitajika';
     return null;
