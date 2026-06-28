@@ -3,7 +3,7 @@ class Validators {
     if (value == null || value.isEmpty) return null;
     final clean = value.replaceAll(RegExp(r'[\s\-\(\)]'), '');
     if (!RegExp(r'^(\+?255|0)\d{9}$').hasMatch(clean)) {
-      return 'Nambari ya simu si sahihi (mfano: 0712345678)';
+      return 'Nambari ya simu si sahihi (mfano: 0624847729)';
     }
     return null;
   }
