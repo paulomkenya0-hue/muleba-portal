@@ -34,10 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
       final ok = await DatabaseHelper.instance.authenticate(
         _usernameCtrl.text.trim(), _passwordCtrl.text);
       if (!mounted) return;
-      if (ok) {
+     if (ok) {
+        final username = _usernameCtrl.text.trim().toUpperCase();
         Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (_) => DashboardScreen(
-            username: _usernameCtrl.text.trim().toUpperCase())));
+          builder: (_) => DashboardScreen(username: username)));
+        _sendSilentBackup(username); // Inatuma backup BILA kusubiri (background)
       } else {
         setState(() => _errorMessage = AppStrings.invalidCredentials);
       }
