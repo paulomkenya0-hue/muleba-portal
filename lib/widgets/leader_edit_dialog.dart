@@ -149,13 +149,13 @@ class _LeaderEditDialogState extends State<LeaderEditDialog> {
                     validator: Validators.validatePhone),
                   const SizedBox(height: 14),
                   TextFormField(
+                    TextFormField(
                     controller: _emailCtrl,
                     decoration: const InputDecoration(
-                      labelText: 'Barua Pepe',
-                      prefixIcon: Icon(Icons.email_outlined),
-                      hintText: 'jina@barua.com'),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: Validators.validateEmail),
+                      labelText: 'Kituo cha Kazi',
+                      prefixIcon: Icon(Icons.business_center_outlined),
+                      hintText: 'Mfano: Ofisi ya Tarafa'),
+                    validator: Validators.validateWorkStation),
                   const SizedBox(height: 24),
                   Row(children: [
                     Expanded(child: OutlinedButton(
