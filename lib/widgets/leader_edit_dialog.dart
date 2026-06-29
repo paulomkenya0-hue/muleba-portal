@@ -137,7 +137,8 @@ class _LeaderEditDialogState extends State<LeaderEditDialog> {
                       labelText: 'Jina Kamili *',
                       prefixIcon: Icon(Icons.person_outline)),
                     textCapitalization: TextCapitalization.words,
-                    validator: Validators.validateName),
+                    validator: Validators.validateName,
+                  ),
                   const SizedBox(height: 14),
                   TextFormField(
                     controller: _phoneCtrl,
@@ -146,16 +147,18 @@ class _LeaderEditDialogState extends State<LeaderEditDialog> {
                       prefixIcon: Icon(Icons.phone_outlined),
                       hintText: '0712345678'),
                     keyboardType: TextInputType.phone,
-                    validator: Validators.validatePhone),
+                    validator: Validators.validatePhone,
+                  ),
                   const SizedBox(height: 14),
                   TextFormField(
-                    TextFormField(
                     controller: _emailCtrl,
                     decoration: const InputDecoration(
                       labelText: 'Kituo cha Kazi',
                       prefixIcon: Icon(Icons.business_center_outlined),
-                      hintText: 'Mfano: Ofisi ya Tarafa'),
-                    validator: Validators.validateWorkStation),
+                      hintText: 'Mfano: Ofisi ya Tarafa',
+                    ),
+                    validator: Validators.validateWorkStation,
+                  ),
                   const SizedBox(height: 24),
                   Row(children: [
                     Expanded(child: OutlinedButton(
