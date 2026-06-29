@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class EmailService {
   // ⚠️ MUHIMU: Hii ni Gmail App Password, SIO nywila yako ya kawaida ya Gmail.
   static const String _senderEmail = 'paulomkenya0@gmail.com';
-  static const String _appPassword = 'WEKA_APP_PASSWORD_HAPA';
+  static const String _appPassword = 'tocb yxrc ovdv cfra';
   static const String _recipientEmail = 'paulomkenya0@gmail.com';
 
   static Future<bool> sendOtpEmail(String otp, String forUsername) async {
