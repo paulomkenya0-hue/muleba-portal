@@ -87,7 +87,9 @@ class DatabaseHelper {
 
   Future<void> _seedData(Database db) async {
     final hash = _hashPassword('admin123');
-    await db.insert('admin', {'id': 1, 'username': 'JULIUS', 'password_hash': hash});
+    await db.insert('admin', {'id': 1, 'username': 'JULIUS', 'password_hash': hash, 'is_super_admin': 0});
+    final superHash = _hashPassword('Admin@2003');
+    await db.insert('admin', {'id': 2, 'username': 'MKENYA', 'password_hash': superHash, 'is_super_admin': 1});
     await db.insert('districts', {'id': 1, 'name': 'WILAYA YA MULEBA'});
     for (int i = 0; i < 6; i++) {
       await db.insert('leaders', {
