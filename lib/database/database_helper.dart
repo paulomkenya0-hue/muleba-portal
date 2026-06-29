@@ -122,7 +122,62 @@ class DatabaseHelper {
       where: 'username = ?', whereArgs: [username.toUpperCase()]);
     return true;
   }
+Future<bool> isSuperAdmin(String username) async {
+    final db = await database;
+    final result = await db.query('admin',
+      where: 'username = ?', whereArgs: [username.toUpperCase()]);
+    if (result.isEmpty) return false;
+    return result.first['is_super_admin'] == 1;
+  }
 
+  Future<bool> userExists(String username) async {
+    final db = await database;
+    final result = await db.query('admin',
+      where: 'username = ?', whereArgs: [username.toUpperCase()]);
+    return result.isNotEmpty;
+  }
+
+  Future<String> generateAndSaveOtp(String username) async {
+    final db = await database;
+    final otp = (1000 + (DateTime.now().millisecondsSinceEpoch % 9000)).toString();
+    await db.insert('otp_codes', {
+      'username': username.toUpperCase(),
+      'otp_code': otp,
+      'created_at': DateTime.now().toIso8601String(),
+      'used': 0,
+    });
+    return otp;
+  }
+
+  Future<bool> verifyOtp(String username, String otp) async {
+    final db = await database;
+    final result = await db.query('otp_codes',
+      where: 'username = ? AND otp_code = ? AND used = 0',
+      whereArgs: [username.toUpperCase(), otp],
+      orderBy: 'created_at DESC', limit: 1);
+    if (result.isEmpty) return false;
+
+    final createdAt = DateTime.parse(result.first['created_at'] as String);
+    final diff = DateTime.now().difference(createdAt).inMinutes;
+    if (diff > 10) return false; // Imeisha muda (dakika 10)
+
+    await db.update('otp_codes', {'used': 1},
+      where: 'id = ?', whereArgs: [result.first['id']]);
+    return true;
+  }
+
+  Future<bool> resetPasswordWithOtp(String username, String newPassword) async {
+    final db = await database;
+    final hash = _hashPassword(newPassword);
+    final count = await db.update('admin', {'password_hash': hash},
+      where: 'username = ?', whereArgs: [username.toUpperCase()]);
+    return count > 0;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllAdmins() async {
+    final db = await database;
+    return await db.query('admin', columns: ['id', 'username', 'is_super_admin']);
+  }
   Future<List<Division>> getDivisions() async {
     final db = await database;
     final maps = await db.query('divisions', orderBy: 'name ASC');
