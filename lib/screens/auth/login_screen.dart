@@ -1,3 +1,4 @@
+import 'forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
 import '../../theme/app_theme.dart';
@@ -203,7 +204,17 @@ class _LoginScreenState extends State<LoginScreen> {
               validator: (v) => Validators.validateRequired(v, 'Nywila'),
               onFieldSubmitted: (_) => _login(),
             ),
-            const SizedBox(height: 28),
+           const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(
+                  builder: (_) => const ForgotPasswordScreen())),
+                child: const Text('Umesahau Nywila?',
+                  style: TextStyle(color: AppTheme.primaryGreen, fontSize: 13)),
+              ),
+            ),
+            const SizedBox(height: 16),
             SizedBox(
               height: 50,
               child: ElevatedButton(
@@ -221,7 +232,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
   Widget _infoRow(IconData icon, String text) {
     return Row(children: [
       Icon(icon, color: AppTheme.accentGold, size: 18),
